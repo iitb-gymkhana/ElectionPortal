@@ -85,7 +85,8 @@
                         <div class="post" id="post-{{ post.id }}" data-count="{{ post.number }}">
                             <div class="text-center text-capitalize text-info">
                                 <h2 class="post-title">{{ post.name }}</h2>
-                                <h4 class="post-title">Available Posts: {{ post.number }}</h4>
+                                <h2 class="post-title">Available Posts: {{ post.number }}</h2>
+				<h3 class="post-title">You can cast {{ post.number }} vote{% if post.number > 1 %}s{% endif %} for this post</h3>
                             </div>
 
                             <div class="row row-centered candidate-list"
