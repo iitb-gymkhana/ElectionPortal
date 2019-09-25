@@ -170,3 +170,5 @@ uwsgi.ini
 
 !.gitkeep
 settings_config.py
+
+.vscode/

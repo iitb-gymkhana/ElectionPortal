@@ -20,10 +20,11 @@
 
     <div class="content-main">
         <h2>Total Registered Voters: {{ object.total_voters }}</h2>
+        <h2 id="voted">hello</h2>
         <div class="inline-group">
             <div class="tabular inline-related">
                 {% for post in posts %}
-                    <fieldset class="module">
+                    <fieldset class="module" style="display: none">
                         <h2>{{ post.name }}</h2>
                         <table>
                             <thead>
@@ -37,14 +38,31 @@
                                 {% for candidate in post.candidates.all %}
                                     <tr class="{% cycle "row1" "row2" %}">
                                         <th colspan="2">{{ candidate.name }}</th>
-                                        <th>{{ candidate.yes_votes }}</th>
-                                        <th>{{ candidate.no_votes }}</th>
+                                        <th class="vote">{{ candidate.yes_votes }}</th >
+                                        <th class="vote">{{ candidate.no_votes }}</th>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </fieldset>
                 {% endfor %}
+
+                {%if object.is_finished == True%}
+                <script>
+                    let s = document.getElementsByClassName("module");
+                    s[0].style.display = "block";
+                </script>
+                {%endif%}
+                <!-- else -->
+                <script>
+                    let count = 0;
+                    let elements = document.getElementsByClassName("vote");
+                    for (var i = 0, len = elements.length; i < len; i++) {
+                        count = count + parseInt(elements[i].innerText, 10);
+                    }
+                    let voted = document.getElementById("voted");
+                    voted.innerText = count + " already voted";
+                </script>
             </div>
         </div>
     </div>
