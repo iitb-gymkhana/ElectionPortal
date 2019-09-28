@@ -20,11 +20,12 @@
 
     <div class="content-main">
         <h2>Total Registered Voters: {{ object.total_voters }}</h2>
-        <h2 id="voted">hello</h2>
+        <h2 id="voted">Already voted: {{ total_voted }}</h2>
         <div class="inline-group">
             <div class="tabular inline-related">
+            {%if object.is_finished == True%}
                 {% for post in posts %}
-                    <fieldset class="module" style="display: none">
+                    <fieldset class="module">
                         <h2>{{ post.name }}</h2>
                         <table>
                             <thead>
@@ -46,23 +47,7 @@
                         </table>
                     </fieldset>
                 {% endfor %}
-
-                {%if object.is_finished == True%}
-                <script>
-                    let s = document.getElementsByClassName("module");
-                    s[0].style.display = "block";
-                </script>
-                {%endif%}
-                <!-- else -->
-                <script>
-                    let count = 0;
-                    let elements = document.getElementsByClassName("vote");
-                    for (var i = 0, len = elements.length; i < len; i++) {
-                        count = count + parseInt(elements[i].innerText, 10);
-                    }
-                    let voted = document.getElementById("voted");
-                    voted.innerText = count + " already voted";
-                </script>
+            {%endif%}
             </div>
         </div>
     </div>

@@ -180,7 +180,7 @@ class ElectionResultView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         self._validate_args(request, *args)
-# add logic for total here
+        
         posts = Post.objects.all().filter(election=self.object).prefetch_related(
             Prefetch('candidates',
                      queryset=Candidate.objects.all().annotate(
@@ -190,12 +190,9 @@ class ElectionResultView(TemplateView):
                              Case(When(votes__vote=VoteTypes.NO, then=1), default=0, output_field=IntegerField())),
                      ))
         )
-        # for post in posts:
-        # print(Candidate.objects.all)
-        # for candidate in Candidate.objects.all:
-        #     print(candidate.name)
-
-        return super().get(request, *args, posts=posts, **kwargs)
+        total_voted = Voter.objects.all().filter(election=self.object, voted = True).count()
+        
+        return super().get(request, *args, posts=posts, total_voted=total_voted, **kwargs)
 
 
 class ElectionPreview(ElectionView):
