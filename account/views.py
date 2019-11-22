@@ -33,6 +33,9 @@ class VoterLoginView(FormView):
 
             user = authenticate(username=username, password=password)
             if user and user.is_authenticated():
+                if request.user.is_staff:
+                    form.add_error(None, 'Staff is not allowed to vote')
+                    return render(request, self.template_name, {'form': form})
                 if not user.user_profile.can_vote:
                     form.add_error(None, 'Only students are allowed to vote')
                     return render(request, self.template_name, {'form': form})

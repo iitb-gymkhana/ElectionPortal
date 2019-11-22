@@ -12,8 +12,7 @@ class UserProfile(models.Model):
 
     @property
     def can_vote(self):
-        if self.is_staff or not self.is_active:
-            return False
+        print(self)
         return self.voter_type and self.voter_type.upper() in CAN_VOTE
 
     @property
