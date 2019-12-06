@@ -1,9 +1,14 @@
 #!/bin/bash
+
+# python3 -m venv env
+# source ./env/bin/activate
+# pip install -r requirements.txt 
+
 cd ElectionPortal;
 cp settings_config.sample.py settings_config.py;
+sed -i 's/False/True/g' settings_config.py;
 cd ..;
 mkdir logs;
-touch election_view.log;
 
 echo "auto migrating in 3 seconds.";
 echo "Press ctrl+C to stop the migrations";
@@ -14,6 +19,9 @@ echo "collecting static files in 3 seconds.";
 echo "Press ctrl+C to stop";
 sleep 3;
 python manage.py collectstatic;
+
+
+# python manage.py createsuperuser
 
 echo "Starting the server in 3 seconds";
 echo "Press ctrl+C to stop";
