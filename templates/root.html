@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load staticfiles %}
+{% load static %}
 <html>
 <!--
 “Make everything as simple as possible, but not simpler” - Albert Einstein
@@ -18,73 +18,75 @@
 
 “Now I am become Death, the destroyer of worlds” - J. Robert Oppenheimer
 -->
+
 <head>
     <title> {% block title %} IITB Elections {% endblock %} </title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="author" content="Dheerendra Rathor"/>
-    <meta name="description" content="A highly secure election portal. Keep it simple"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/root.css' %}"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Dheerendra Rathor" />
+    <meta name="description" content="A highly secure election portal. Keep it simple" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/root.css' %}" />
     {% block cssLinks %}
     {% endblock %}
 </head>
 
 <body>
 
-<!-- Fixed navbar -->
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{% url 'index' %}">Elections</a>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}">Elections</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    {% block navbar_right_link %}
+                    {% endblock %}
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                {% block navbar_right_link %}
-                {% endblock %}
-            </ul>
-        </div>
-        <!--/.nav-collapse -->
-    </div>
-</nav>
+    </nav>
 
-{% block featurette %}
-{% endblock %}
-
-<div class="container">
-
-    {% if messages %}
-        <ul class="messages" style="list-style-type: none; padding-left: 0;">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-                    {{ message }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
-    {% block body %}
+    {% block featurette %}
     {% endblock %}
 
-    {% block footer %}
+    <div class="container">
+
+        {% if messages %}
+        <ul class="messages" style="list-style-type: none; padding-left: 0;">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                {{ message }}
+                </li>
+                {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% block body %}
+        {% endblock %}
+
+        {% block footer %}
         <div class="container">
             {% include 'footer.html' %}
         </div>
-    {% endblock footer %}
-</div>
+        {% endblock footer %}
+    </div>
 
-<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/cookie.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/root.js' %}"></script>
-{% block jsLinks %}
-{% endblock %}
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/cookie.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/root.js' %}"></script>
+    {% block jsLinks %}
+    {% endblock %}
 </body>
+
 </html>

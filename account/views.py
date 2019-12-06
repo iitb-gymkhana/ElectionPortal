@@ -18,7 +18,7 @@ class VoterLoginView(FormView):
         next_ = request.GET.get('next', self.success_url)
         if next_ == '':
             next_ = self.success_url
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return redirect(next_)
         return render(request, self.template_name, {'form': self.form_class})
 
@@ -32,7 +32,7 @@ class VoterLoginView(FormView):
             password = form.cleaned_data['password']
 
             user = authenticate(username=username, password=password)
-            if user and user.is_authenticated():
+            if user and user.is_authenticated:
                 if request.user.is_staff:
                     form.add_error(None, 'Staff is not allowed to vote')
                     return render(request, self.template_name, {'form': form})

@@ -6,7 +6,7 @@ class IndexView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             context['base_template'] = 'logged_in.html'
         else:
             context['base_template'] = 'root.html'

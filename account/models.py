@@ -5,14 +5,14 @@ from core.core import CAN_VOTE, EXTENDED_UG_REGEX, PG_TYPE, UG_TYPE, VoterTypes
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, related_name='user_profile')
+    user = models.OneToOneField(
+        User, related_name='user_profile', on_delete=models.CASCADE)
     roll_number = models.CharField(max_length=16)
     user_type = models.CharField(max_length=16, null=True, blank=True)
     voter_type = models.CharField(max_length=16, null=True)
 
     @property
     def can_vote(self):
-        print(self)
         return self.voter_type and self.voter_type.upper() in CAN_VOTE
 
     @property

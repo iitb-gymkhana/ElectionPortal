@@ -10,17 +10,24 @@ from simple_history.models import HistoricalRecords
 
 class Election(models.Model):
     name = models.CharField(max_length=64, db_index=True)
-    creator = models.ForeignKey(User, related_name='elections', db_index=True)
+    creator = models.ForeignKey(
+        User, related_name='elections', db_index=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+
     is_active = models.BooleanField(default=False, db_index=True,
                                     help_text='Check it to start Election')
-    is_temporary_closed = models.BooleanField(default=False, help_text='Election temporarily closed')
-    is_finished = models.BooleanField(default=False, db_index=True, help_text='If checked, election will close!')
+    is_temporary_closed = models.BooleanField(
+        default=False, help_text='Election temporarily closed')
+    is_finished = models.BooleanField(
+        default=False, db_index=True, help_text='If checked, election will close!')
     finished_at = models.DateTimeField(blank=True, null=True)
-    is_key_required = models.BooleanField(default=True, help_text='Keep voting key for election')
-    keep_nota_option = models.BooleanField(default=True, help_text='Keep None of The Above as a valid vote in posts')
-    display_manifesto = models.BooleanField(default=True, help_text='Display manifestos for candidates if present')
+    is_key_required = models.BooleanField(
+        default=True, help_text='Keep voting key for election')
+    keep_nota_option = models.BooleanField(
+        default=True, help_text='Keep None of The Above as a valid vote in posts')
+    display_manifesto = models.BooleanField(
+        default=True, help_text='Display manifestos for candidates if present')
     session_timeout = models.PositiveSmallIntegerField(
         default=120,
         validators=[
@@ -55,7 +62,7 @@ class Tag(models.Model):
     tag = models.SlugField(max_length=16, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.tag
@@ -68,8 +75,10 @@ def generate_random_voter_key():
 class Voter(models.Model):
     roll_no = models.CharField(max_length=10, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    election = models.ForeignKey(Election, related_name='voters', db_index=True)
-    key = models.CharField(max_length=settings.VOTER_KEY_LENGTH, default=generate_random_voter_key)
+    election = models.ForeignKey(
+        Election, related_name='voters', db_index=True, on_delete=models.CASCADE)
+    key = models.CharField(
+        max_length=settings.VOTER_KEY_LENGTH, default=generate_random_voter_key)
     voted = models.BooleanField(default=False, db_index=True)
     voted_at = models.DateTimeField(null=True, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)

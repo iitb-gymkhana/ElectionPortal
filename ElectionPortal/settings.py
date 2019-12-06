@@ -14,6 +14,7 @@ import logging.config
 import os
 
 import ldap
+
 from django_auth_ldap.config import LDAPSearch
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -23,15 +24,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
-#CACHES = {
+# CACHES = {
 #    'default': {
 #        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
 #        'LOCATION': '127.0.0.1:11211',
 #        'KEY_PREFIX': 'iitb_election_portal_'
 #    }
-#}
+# }
 
 AUTHENTICATION_BACKENDS = (
+    # 'oauth2_provider.backends.OAuth2Backend',
     'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -40,8 +42,11 @@ AUTH_LDAP_SERVER_URI = 'ldap://ldap.iitb.ac.in'
 
 AUTH_LDAP_BIND_DN = ''
 AUTH_LDAP_BIND_PASSWORD = ''
-AUTH_LDAP_USER_SEARCH = LDAPSearch('ou=People,dc=iitb,dc=ac,dc=in',
-                                   ldap.SCOPE_SUBTREE, '(uid=%(user)s)')
+
+
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    'ou=People,dc=iitb,dc=ac,dc=in', ldap.SCOPE_SUBTREE, '(uid=%(user)s)')
+
 
 AUTH_LDAP_USER_ATTR_MAP = {
     'first_name': 'givenName',
@@ -71,18 +76,29 @@ INSTALLED_APPS = [
     'vote',
     'account',
     'core',
+    # 'oauth2_provider',
 ]
 
-MIDDLEWARE_CLASSES = [
+# MIDDLEWARE = (
+#     '...',
+#     # If you use SessionAuthenticationMiddleware, be sure it appears before OAuth2TokenMiddleware.
+#     # SessionAuthenticationMiddleware is NOT required for using django-oauth-toolkit.
+#     # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+#     'oauth2_provider.middleware.OAuth2TokenMiddleware',
+#     # '...',
+# )
+
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
+    # 'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
 
 ROOT_URLCONF = 'ElectionPortal.urls'
