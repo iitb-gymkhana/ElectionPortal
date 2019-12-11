@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^accounts/', include((account.urls, 'account'), namespace='account')),
     url(r'^election/', include((election.urls, 'election'), namespace='election')),
+    url(r'^oauth/', include('oauth2_sso.urls')),
 ]
 
 
