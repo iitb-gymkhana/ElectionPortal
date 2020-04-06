@@ -56,4 +56,4 @@ class VoterLogoutView(View):
     def post(self, request, *args, **kwargs):
         if request.user:
             logout(request)
-        return redirect('account:login')
+        return redirect('index')

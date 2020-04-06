@@ -41,3 +41,8 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # DATABASES
 # Define databases here to override default Databases.
+
+CLIENT_ID = ""
+CLIENT_SECRET = ""
+
+REDIRECT_URI = ""  # Redirect to /complete/
