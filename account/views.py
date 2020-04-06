@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from django.views.generic.edit import FormView, View
 
-from core.core import LOGGED_IN_SESSION_KEY
+from core.core import CAN_VOTE, LOGGED_IN_SESSION_KEY
 from election.models import Voter
 
 from .forms import VoterLoginForm

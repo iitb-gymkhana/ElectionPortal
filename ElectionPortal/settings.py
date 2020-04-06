@@ -13,9 +13,9 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import logging.config
 import os
 
-# import ldap
+import ldap
 
-# from django_auth_ldap.config import LDAPSearch
+from django_auth_ldap.config import LDAPSearch
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,34 +33,33 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # }
 
 AUTHENTICATION_BACKENDS = (
-    'oauth2_sso.backends.OAuth2Backend',
-    # 'django_auth_ldap.backend.LDAPBackend',
+    # 'oauth2_provider.backends.OAuth2Backend',
+    'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-# AUTH_LDAP_SERVER_URI = 'ldap://ldap.iitb.ac.in'
+AUTH_LDAP_SERVER_URI = 'ldap://ldap.iitb.ac.in'
 
-# AUTH_LDAP_BIND_DN = ''
-# AUTH_LDAP_BIND_PASSWORD = ''
-
-
-# AUTH_LDAP_USER_SEARCH = LDAPSearch(
-#     'ou=People,dc=iitb,dc=ac,dc=in', ldap.SCOPE_SUBTREE, '(uid=%(user)s)')
+AUTH_LDAP_BIND_DN = ''
+AUTH_LDAP_BIND_PASSWORD = ''
 
 
-# AUTH_LDAP_USER_ATTR_MAP = {
-# # 'mapping': 'ldap_server_attributes'
-#     'first_name': 'givenName',
-#     'last_name': 'sn',
-#     'email': 'mail',
-# }
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    'ou=People,dc=iitb,dc=ac,dc=in', ldap.SCOPE_SUBTREE, '(uid=%(user)s)')
+
+
+AUTH_LDAP_USER_ATTR_MAP = {
+    'first_name': 'givenName',
+    'last_name': 'sn',
+    'email': 'mail',
+}
 
 AUTH_PROFILE_MODULE = 'account.UserProfile'
 
-# AUTH_LDAP_PROFILE_ATTR_MAP = {
-#     'roll_number': 'employeeNumber',
-#     'user_type': 'employeeType',
-# }
+AUTH_LDAP_PROFILE_ATTR_MAP = {
+    'roll_number': 'employeeNumber',
+    'user_type': 'employeeType',
+}
 
 # Application definition
 
@@ -77,8 +76,17 @@ INSTALLED_APPS = [
     'vote',
     'account',
     'core',
-    'oauth2_sso',
+    # 'oauth2_provider',
 ]
+
+# MIDDLEWARE = (
+#     '...',
+#     # If you use SessionAuthenticationMiddleware, be sure it appears before OAuth2TokenMiddleware.
+#     # SessionAuthenticationMiddleware is NOT required for using django-oauth-toolkit.
+#     # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+#     'oauth2_provider.middleware.OAuth2TokenMiddleware',
+#     # '...',
+# )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -90,6 +98,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
+    # 'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
 
 ROOT_URLCONF = 'ElectionPortal.urls'
