@@ -54,12 +54,7 @@
             <!--/.nav-collapse -->
         </div>
     </nav>
-
-    {% block featurette %}
-    {% endblock %}
-
     <div class="container">
-
         {% if messages %}
         <ul class="messages" style="list-style-type: none; padding-left: 0;">
             {% for message in messages %}
@@ -70,7 +65,12 @@
                 {% endfor %}
         </ul>
         {% endif %}
+    </div>
 
+    {% block featurette %}
+    {% endblock %}
+
+    <div class="container">
         {% block body %}
         {% endblock %}
 

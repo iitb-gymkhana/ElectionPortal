@@ -33,35 +33,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # }
 
 AUTHENTICATION_BACKENDS = (
-    # 'oauth2_provider.backends.OAuth2Backend',
-    'django_auth_ldap.backend.LDAPBackend',
+    'iitb_oauth.backend.OauthBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-AUTH_LDAP_SERVER_URI = 'ldap://ldap.iitb.ac.in'
-
-AUTH_LDAP_BIND_DN = ''
-AUTH_LDAP_BIND_PASSWORD = ''
-
-
-AUTH_LDAP_USER_SEARCH = LDAPSearch(
-    'ou=People,dc=iitb,dc=ac,dc=in', ldap.SCOPE_SUBTREE, '(uid=%(user)s)')
-
-
-AUTH_LDAP_USER_ATTR_MAP = {
-    'first_name': 'givenName',
-    'last_name': 'sn',
-    'email': 'mail',
-}
-
 AUTH_PROFILE_MODULE = 'account.UserProfile'
-
-AUTH_LDAP_PROFILE_ATTR_MAP = {
-    'roll_number': 'employeeNumber',
-    'user_type': 'employeeType',
-}
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -76,7 +52,7 @@ INSTALLED_APPS = [
     'vote',
     'account',
     'core',
-    # 'oauth2_provider',
+    'iitb_oauth',
 ]
 
 # MIDDLEWARE = (
@@ -260,6 +236,29 @@ logging.config.dictConfig(LOGGING)
 
 X_FRAME_OPTIONS = 'DENY'
 
-LOGIN_URL = 'account:login'
+# Settings for iitb-oauth
+LOGIN_URL = "/oauth/login/"  # different from your ModelBackend auth
+ALTERNATE_LOGIN_URL = "/login/"
+SCOPE = (
+    "ldap profile program"  # ldap is necessary for login, pass only necessary scopes
+)
+FIELDS = (
+    "username,type,roll_number,first_name,last_name"  # username is mandatory field
+)
+
+LOGIN_COMPLETE_REDIRECT = "/election"
+FALLBACK_URL = "/"
+LOGOUT_REDIRECT = "/"
+MAPPINGS = {
+    # "fields in User model": "LDAP mapping"
+    # email mapped with username@iitb.ac.in if email is not in scope.
+    "first_name": "first_name",
+    "last_name": "last_name",
+}
+PROFILE_MAPPING = {
+    "roll_number": "roll_number",
+    "user_type": "type",
+    "voter_type": "type"
+}
 
 from .settings_config import *  # noqa isort:skip
